@@ -11,5 +11,46 @@ console.log(utils.name) */
  * 4 From app.js, load in and call function priting message to console
  */
 
+//Use Yargs library
+const yargs = require('yargs')
+
 const notes = require("./notes")
-console.log(notes())
+
+
+yargs.command({
+  command: 'add',
+  describe: 'Add a new note',
+  builder: {
+    title: {
+      describe: "Title note",
+      demandOption: true,
+      type: 'string'
+    },
+
+    body: {
+      describe: "Body note",
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: (argv) => {
+    notes.addNote(argv.title, argv.body)
+  }
+})
+
+yargs.command({
+  command: 'remove',
+  describe: 'Remove a note',
+  builder: {
+    title: {
+      describe: "Title note",
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: (argv) => {
+    notes.removeNote(argv.title)
+  }
+})
+
+yargs.parse()
