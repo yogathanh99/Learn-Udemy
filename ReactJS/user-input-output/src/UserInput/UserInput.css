@@ -1,0 +1,9 @@
+.UserInput {
+  border: 2px solid blue;
+  transition: all 0.3s;
+}
+
+.UserInput:hover,
+.UserInput:focus {
+  border: 2px solid green;
+}
