@@ -89,28 +89,38 @@ export default class BurgerBuilder extends Component {
   }
 
   render() {
+    const {
+      state: { ingredients, totalPrices, purchase, purchasing },
+      addIngredientHandler,
+      removeIngredientHandler,
+      purchaseHandler,
+      purchaseCancelHandler,
+      purchaseContinueHandler
+    } = this
+
     const disabledInfor = {
-      ...this.state.ingredients
+      ...ingredients
     }
 
     for (let key in disabledInfor) disabledInfor[key] = disabledInfor[key] <= 0
     return (
       <Aux>
-        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+        <Modal show={purchasing} modalClosed={purchaseCancelHandler}>
           <OrderSummary
-            ingredients={this.state.ingredients}
-            purchaseCancelled={this.purchaseCancelHandler}
-            purchaseContinued={this.purchaseContinueHandler}
+            price={totalPrices}
+            ingredients={ingredients}
+            purchaseCancelled={purchaseCancelHandler}
+            purchaseContinued={purchaseContinueHandler}
           />
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
+        <Burger ingredients={ingredients} />
         <BuildControls
-          ingredientAdded={this.addIngredientHandler}
-          ingredientRemoved={this.removeIngredientHandler}
+          ingredientAdded={addIngredientHandler}
+          ingredientRemoved={removeIngredientHandler}
           disabled={disabledInfor}
-          purchase={this.state.purchase}
-          price={this.state.totalPrices}
-          ordered={this.purchaseHandler}
+          purchase={purchase}
+          price={totalPrices}
+          ordered={purchaseHandler}
         />
       </Aux>
     )
