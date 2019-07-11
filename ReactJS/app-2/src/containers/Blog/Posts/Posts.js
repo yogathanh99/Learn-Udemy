@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import Post from '../../../components/Post/Post'
@@ -32,19 +31,18 @@ export default class Posts extends Component {
   }
 
   postSelectedHandler = id => {
-    this.setState({ selectedPostId: id })
+    this.props.history.push(`/posts/${id}`)
   }
   render() {
     let posts = <p style={{ textAlign: 'center' }}>Something wrong...</p>
     if (!this.state.error) {
       posts = this.state.posts.map(post => (
-        <Link to={`/post/${post.id}`} key={post.id}>
-          <Post
-            author={post.author}
-            title={post.title}
-            clicked={() => this.postSelectedHandler(post.id)}
-          />
-        </Link>
+        <Post
+          key={post.id}
+          author={post.author}
+          title={post.title}
+          clicked={() => this.postSelectedHandler(post.id)}
+        />
       ))
     }
     return <section className="Posts">{posts}</section>
