@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 import './NewPost.css'
 
@@ -7,7 +8,8 @@ class NewPost extends Component {
   state = {
     title: '',
     content: '',
-    author: 'Thanh'
+    author: 'Thanh',
+    submitted: false
   }
 
   postDataHandler = () => {
@@ -17,12 +19,23 @@ class NewPost extends Component {
       author: this.state.author
     }
 
-    axios.post('/posts', post).then(response => console.log(response))
+    axios.post('/posts', post).then(response => {
+      console.log(response)
+      //I can use props.history to redirect -> history push method use stack to save current page
+      this.props.history.push('/')
+      //Redirect use replace current page -> Same as history replace method
+      // this.setState({ submitted: true })
+    })
   }
 
   render() {
+    // let submitted = null
+    // if (this.state.submitted) {
+    //   submitted = <Redirect to="/" />
+    // }
     return (
       <div className="NewPost">
+        {/* {submitted} */}
         <h1>Add a Post</h1>
         <label>Title</label>
         <input
