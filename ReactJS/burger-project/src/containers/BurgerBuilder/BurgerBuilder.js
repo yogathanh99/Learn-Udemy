@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import * as actionTypes from '../../store/actions'
+import * as burgerBuilderActions from '../../store/actions'
 import axios from '../../axios-orders' //Axios instance
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import Aux from '../../hoc/Aux'
@@ -20,16 +20,7 @@ class BurgerBuilder extends Component {
   }
 
   componentDidMount() {
-    // axios
-    //   .get('https://burger-app-react-thanhvo.firebaseio.com/ingredients.json')
-    //   .then(res => {
-    //     this.setState({
-    //       ingredients: res.data
-    //     })
-    //   })
-    //   .catch(error => {
-    //     this.setState({ error: true })
-    //   })
+    this.props.onFetchIngredients()
   }
 
   updatePurchaseHandler = ingredients => {
@@ -103,8 +94,8 @@ class BurgerBuilder extends Component {
 
   render() {
     const {
-      state: { totalPrices, purchasing, loading, error },
-      props: { ings, price, onIncrementValue, onDecrementValue },
+      state: { purchasing, loading },
+      props: { ings, price, error, onIncrementValue, onDecrementValue },
       purchaseHandler,
       purchaseCancelHandler,
       updatePurchaseHandler,
@@ -160,14 +151,15 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => ({
   ings: state.ingredients,
-  price: state.totalPrice
+  price: state.totalPrice,
+  error: state.error
 })
 
 const mapDispatchToProps = dispatch => ({
-  onIncrementValue: ingredientName =>
-    dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName }),
+  onIncrementValue: ingredientName => dispatch(burgerBuilderActions.addIngredient(ingredientName)),
   onDecrementValue: ingredientName =>
-    dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName })
+    dispatch(burgerBuilderActions.removeIngredient(ingredientName)),
+  onFetchIngredients: () => dispatch(burgerBuilderActions.fetchIngredients())
 })
 
 export default connect(
