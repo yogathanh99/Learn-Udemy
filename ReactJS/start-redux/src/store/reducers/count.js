@@ -1,4 +1,5 @@
-import * as actionTypes from '../actions'
+import * as actionTypes from '../actions/actionTypes'
+import { updateObjet } from '../ultily'
 
 const initState = {
   count: 0
@@ -7,25 +8,13 @@ const initState = {
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.INCREMENT:
-      return {
-        ...state,
-        count: state.count + 1
-      }
+      return updateObjet(state, { count: state.count + 1 })
     case actionTypes.DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1
-      }
+      return updateObjet(state, { count: state.count - 1 })
     case actionTypes.ADD_VALUE:
-      return {
-        ...state,
-        count: state.count + action.value
-      }
+      return updateObjet(state, { count: state.count + action.value })
     case actionTypes.SUB_VALUE:
-      return {
-        ...state,
-        count: state.count - action.value
-      }
+      return updateObjet(state, { count: state.count - action.value })
     default:
       return state
   }

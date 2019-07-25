@@ -1,0 +1,6 @@
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+export const ADD_VALUE = 'ADD'
+export const SUB_VALUE = 'SUB'
+export const STORE_RESULT = 'STORE_RESULT'
+export const REMOVE_RESULT = 'REMOVE_RESULT'
