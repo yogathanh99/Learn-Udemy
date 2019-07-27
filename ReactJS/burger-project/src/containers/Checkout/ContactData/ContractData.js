@@ -6,6 +6,8 @@ import classes from './ContractData.css'
 import Button from '../../../components/UI/Button/Button'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input'
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+import * as actionTypes from '../../../store/actions/index'
 
 class ContactData extends React.Component {
   state = {
@@ -83,13 +85,12 @@ class ContactData extends React.Component {
         valid: true
       }
     },
-    loading: false,
     formIsValid: false
   }
 
   orderHandler = e => {
     e.preventDefault()
-    this.setState({ loading: true })
+    // this.setState({ loading: true })
     const orderData = {}
 
     for (let formElement in this.state.orderForm) {
@@ -100,19 +101,8 @@ class ContactData extends React.Component {
       price: this.props.totalPrice,
       order: orderData
     }
-    axios
-      .post('/orders.json', order)
-      .then(response => {
-        this.setState({
-          loading: false
-        })
-        this.props.history.push('/')
-      })
-      .catch(error => {
-        this.setState({
-          loading: false
-        })
-      })
+
+    this.props.onPurchaseStart(order)
   }
 
   checkValidation = (value, rule) => {
@@ -187,7 +177,7 @@ class ContactData extends React.Component {
         </Button>
       </form>
     )
-    if (this.state.loading) form = <Spinner />
+    if (this.props.loading) form = <Spinner />
 
     return (
       <div className={classes.ContactData}>
@@ -198,9 +188,17 @@ class ContactData extends React.Component {
   }
 }
 
-const mapStateToProps = ({ ingredients, totalPrice }) => ({
-  ingredients: ingredients,
-  totalPrice: totalPrice
+const mapStateToProps = state => ({
+  ingredients: state.burgerBuilder.ingredients,
+  totalPrice: state.burgerBuilder.totalPrice,
+  loading: state.order.loading
 })
 
-export default connect(mapStateToProps)(ContactData)
+const mapDispatchToProps = dispatch => ({
+  onPurchaseStart: orderData => dispatch(actionTypes.purchaseBurger(orderData))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, axios))

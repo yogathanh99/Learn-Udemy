@@ -12,6 +12,7 @@ const controls = [
 
 const buildControls = props => {
   const { price, ingredientAdded, ingredientRemoved, disabled, purchase, ordered } = props
+  console.log(props)
   return (
     <div className={classes.BuildControls}>
       <p>

@@ -11,24 +11,24 @@ export const removeIngredient = name => ({
   ingredientName: name
 })
 
-const setIngredients = ingredients => ({
+export const setIngredients = ingredients => ({
   type: actionTypes.SET_INGREDIENTS,
-  ingredients
+  ingredients: ingredients
 })
 
-const fetchIngredientsFailed = () => ({
+export const fetchIngredientsFailed = () => ({
   type: actionTypes.FETCH_INGREDIENTS_FAILED
 })
 
 export const fetchIngredients = () => {
-  return distpatch => {
+  return dispatch => {
     axios
       .get('https://burger-app-react-thanhvo.firebaseio.com/ingredients.json')
       .then(res => {
-        distpatch(setIngredients(res.data))
+        dispatch(setIngredients(res.data))
       })
       .catch(error => {
-        distpatch(fetchIngredientsFailed())
+        dispatch(fetchIngredientsFailed())
       })
   }
 }
