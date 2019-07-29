@@ -99,10 +99,11 @@ class ContactData extends React.Component {
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
-      order: orderData
+      order: orderData,
+      userId: this.props.userId
     }
 
-    this.props.onPurchaseStart(order)
+    this.props.onPurchaseStart(order, this.props.token)
   }
 
   checkValidation = (value, rule) => {
@@ -191,11 +192,13 @@ class ContactData extends React.Component {
 const mapStateToProps = state => ({
   ingredients: state.burgerBuilder.ingredients,
   totalPrice: state.burgerBuilder.totalPrice,
-  loading: state.order.loading
+  loading: state.order.loading,
+  token: state.auth.token,
+  userId: state.auth.userId
 })
 
 const mapDispatchToProps = dispatch => ({
-  onPurchaseStart: orderData => dispatch(actionTypes.purchaseBurger(orderData))
+  onPurchaseStart: (orderData, token) => dispatch(actionTypes.purchaseBurger(orderData, token))
 })
 
 export default connect(

@@ -11,7 +11,7 @@ const controls = [
 ]
 
 const buildControls = props => {
-  const { price, ingredientAdded, ingredientRemoved, disabled, purchase, ordered } = props
+  const { price, ingredientAdded, ingredientRemoved, disabled, purchase, ordered, isAuth } = props
   console.log(props)
   return (
     <div className={classes.BuildControls}>
@@ -28,7 +28,7 @@ const buildControls = props => {
         />
       ))}
       <button className={classes.OrderButton} disabled={!purchase} onClick={ordered}>
-        ORDER NOW
+        {isAuth ? 'ORDER NOW' : 'SIGN IN TO ORDER'}
       </button>
     </div>
   )

@@ -7,7 +7,7 @@ import Aux from '../../../hoc/Aux'
 import classes from './SideDrawer.css'
 
 const SideDrawer = props => {
-  const { opened, closed } = props
+  const { opened, closed, isAuth } = props
   let attachedClasses = [classes.SideDrawer, classes.Close]
 
   if (opened) {
@@ -21,7 +21,7 @@ const SideDrawer = props => {
           <Logo />
         </div>
         <nav>
-          <NavigationItems />
+          <NavigationItems isAuthenticated={isAuth} />
         </nav>
       </div>
     </Aux>
