@@ -4,15 +4,25 @@ import NavigationItem from './NavigationItem/NavigationItem'
 import classes from './NavigationItems.css'
 
 const NavigationItems = props => {
-  const { isAuthenticated } = props
+  const { isAuthenticated, clicked } = props
   return (
     <ul className={classes.NavigationItems}>
-      <NavigationItem link="/">Burger Builder</NavigationItem>
-      {isAuthenticated ? <NavigationItem link="/orders">Orders</NavigationItem> : null}
+      <NavigationItem link="/" clicked={clicked}>
+        Burger Builder
+      </NavigationItem>
+      {isAuthenticated ? (
+        <NavigationItem link="/orders" clicked={clicked}>
+          Orders
+        </NavigationItem>
+      ) : null}
       {!isAuthenticated ? (
-        <NavigationItem link="/auth">Authenticate</NavigationItem>
+        <NavigationItem link="/auth" clicked={clicked}>
+          Authenticate
+        </NavigationItem>
       ) : (
-        <NavigationItem link="/logout">Log out</NavigationItem>
+        <NavigationItem link="/logout" clicked={clicked}>
+          Log out
+        </NavigationItem>
       )}
     </ul>
   )
