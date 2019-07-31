@@ -8,6 +8,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actionTypes from '../../../store/actions/index'
+import { updateObject, checkValidity } from '../../../shared/utility'
 
 class ContactData extends React.Component {
   state = {
@@ -106,47 +107,23 @@ class ContactData extends React.Component {
     this.props.onPurchaseStart(order, this.props.token)
   }
 
-  checkValidation = (value, rule) => {
-    let isValid = true
-
-    if (rule.required) {
-      isValid = value.trim() !== '' && isValid
-    }
-
-    if (rule.minLength) {
-      isValid = value.length >= rule.minLength && isValid
-    }
-
-    if (rule.maxLength) {
-      isValid = value.length <= rule.maxLength && isValid
-    }
-
-    return isValid
-  }
-
   inputFormHandler = (e, inputIdentifier) => {
-    const updateForm = {
-      ...this.state.orderForm
-    }
+    const updateFormElement = updateObject(this.state.orderForm[inputIdentifier], {
+      value: e.target.value,
+      valid: checkValidity(e.target.value, this.state.orderForm[inputIdentifier].validation),
+      touched: true
+    })
+    const updateOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updateFormElement
+    })
 
-    const updateFormElement = {
-      ...updateForm[inputIdentifier]
-    }
-
-    updateFormElement.value = e.target.value
-    updateFormElement.valid = this.checkValidation(
-      updateFormElement.value,
-      updateFormElement.validation
-    )
-    updateFormElement.touched = true
-    updateForm[inputIdentifier] = updateFormElement
     let formIsValid = true
-    for (let formElement in updateForm) {
-      formIsValid = updateForm[formElement].valid && formIsValid
+    for (let formElement in updateOrderForm) {
+      formIsValid = updateOrderForm[formElement].valid && formIsValid
     }
 
     this.setState({
-      orderForm: updateForm,
+      orderForm: updateOrderForm,
       formIsValid
     })
   }
