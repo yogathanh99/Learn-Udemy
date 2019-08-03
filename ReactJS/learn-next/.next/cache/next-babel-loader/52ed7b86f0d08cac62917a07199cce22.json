@@ -1,0 +1,1 @@
+{"ast":null,"code":"import React from 'react';\nimport User from '../../components/User';\n\nconst index = () => {\n  return React.createElement(\"div\", null, React.createElement(\"p\", null, \"Hello About page\"), React.createElement(User, {\n    name: \"Thanh\",\n    age: 20\n  }));\n};\n\nexport default index;","map":null,"metadata":{},"sourceType":"module"}
