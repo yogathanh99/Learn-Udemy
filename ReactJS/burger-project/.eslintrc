@@ -12,7 +12,7 @@
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
-    "plugins": ["prettier"],
+    "plugins": ["prettier", "react-hoooks"],
     "rules": {
         "prettier/prettier": 1,
         "quotes": [
@@ -22,6 +22,8 @@
             "avoidEscape": true,
             "allowTemplateLiterals": true
           }
-        ]
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }
