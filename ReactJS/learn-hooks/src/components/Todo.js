@@ -1,10 +1,13 @@
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useState, useEffect, useReducer, useRef, useMemo } from 'react';
 import axios from 'axios';
+
+import List from './List';
 
 const Todo = props => {
   // const [inputState, inputSetState] = useState('');
   // const [submittedTodo, setSubmittedTodo] = useState(null);
   //const [todoList, setTodoList] = useState([]);
+  const [inputValid, setInputValid] = useState(false);
 
   const todoInputRef = useRef('');
 
@@ -49,6 +52,14 @@ const Todo = props => {
   //   }
   // }, [submittedTodo]);
 
+  const inputValidationHandler = e => {
+    if (e.target.value.trim() === '') {
+      setInputValid(false);
+    } else {
+      setInputValid(true);
+    }
+  };
+
   const todoAddHandler = () => {
     const inputState = todoInputRef.current.value;
 
@@ -84,17 +95,22 @@ const Todo = props => {
         value={inputState}
       /> */}
       {/* Using Refs to interact value */}
-      <input placeholder='Input here' type='text' ref={todoInputRef} />
+      <input
+        placeholder='Input here'
+        type='text'
+        ref={todoInputRef}
+        onChange={inputValidationHandler}
+        style={{ background: inputValid ? 'transparent' : 'red' }}
+      />
       <button type='button' onClick={todoAddHandler}>
         Add
       </button>
-      <ul>
-        {todoList.map(todo => (
-          <li key={todo.id} onClick={() => todoRemoveHandler(todo.id)}>
-            {todo.name}
-          </li>
-        ))}
-      </ul>
+      {useMemo(
+        () => (
+          <List todoList={todoList} todoRemoveHandler={todoRemoveHandler} />
+        ),
+        [todoList],
+      )}
     </React.Fragment>
   );
 };
