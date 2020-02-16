@@ -1,46 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <title>Document</title>
-</head>
-
-<body>
-  <div id="app">
-    <h2>{{title}}</h2>
-    <!-- <p>{{text('Thanh')}}</p> -->
-    <a :href='url'>Youtube</a>
-    <p>{{count}}</p>
-    <button @click='changeAmount(1)'>Increase</button>
-    <button @click='changeAmount(-1)'>Decrease</button>
-    <p>{{name}}</p>
-    <input type="text" @keyup='handleChangeValue' placeholder='Input name'>
-    <!-- Two way binding -->
-    <input type="text" v-model='name' placeholder='Input name'>
-    <p>Method event modifiers</p>
-    <button @click.alt='logMessage'>alt-click me</button>
-    <p>Method v-if</p>
-    <div>
-      <template v-if="loginType === 'username'">
-        <label>Username</label>
-        <input placeholder="Enter your username">
-      </template>
-      <template v-else>
-        <label>Email</label>
-        <input placeholder="Enter your email address">
-      </template>
-      <button @click='toggleType'>Toggle Type</button>
+  <body>
+    <div id="app">
+      <h2>{{ title }}</h2>
+      <!-- <p>{{text('Thanh')}}</p> -->
+      <a :href="url">Youtube</a>
+      <p>{{ count }}</p>
+      <button @click="changeAmount(1)">Increase</button>
+      <button @click="changeAmount(-1)">Decrease</button>
+      <p>{{ name }}</p>
+      <input type="text" @keyup="handleChangeValue" placeholder="Input name" />
+      <!-- Two way binding -->
+      <input type="text" v-model="name" placeholder="Input name" />
+      <p>Method event modifiers</p>
+      <button @click.alt="logMessage">alt-click me</button>
+      <p>Method v-if</p>
+      <div>
+        <template v-if="loginType === 'username'">
+          <label>Username</label>
+          <input placeholder="Enter your username" />
+        </template>
+        <template v-else>
+          <label>Email</label>
+          <input placeholder="Enter your email address" />
+        </template>
+        <button @click="toggleType">Toggle Type</button>
+      </div>
+      <p>Method v-for</p>
+      <ul>
+        <li v-for="(item,i) in items">{{ i }} - {{ item }}</li>
+      </ul>
     </div>
-    <p>Method v-for</p>
-    <ul>
-      <li v-for='(item,i) in items'>{{i}} - {{item}}</li>
-    </ul>
-  </div>
-  <script src='app.js'></script>
-</body>
-
+    <script src="app.js"></script>
+  </body>
 </html>

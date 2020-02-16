@@ -1,1 +1,0 @@
-Today, I learn FS library and know 2 type write file - fs.writeFileSync and fs.writeFile
