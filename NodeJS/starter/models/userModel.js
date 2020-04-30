@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
       validator: function (val) {
         return val === this.password;
       },
-      message: 'Please confirm correct your password',
+      message: 'Password are not the same!',
     },
   },
   passwordChangedAt: Date,
@@ -49,6 +49,13 @@ userSchema.pre('save', async function (next) {
 
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.pre('save', function () {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
