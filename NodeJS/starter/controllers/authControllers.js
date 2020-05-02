@@ -167,8 +167,8 @@ exports.resetPassword = tryCatchAsync(async (req, res, next) => {
 
 exports.updatePassword = tryCatchAsync(async (req, res, next) => {
   // Get user from the collection
-  const user = await (await User.findById(req.body.id)).select('+password');
-  const isCorrect = user.correctPassword(
+  const user = await User.findById(req.user.id).select('+password');
+  const isCorrect = await user.correctPassword(
     req.body.passwordCurrent,
     user.password
   );
