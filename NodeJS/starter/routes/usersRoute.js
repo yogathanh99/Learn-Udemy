@@ -13,6 +13,16 @@ router.patch(
   authControllers.protectData,
   authControllers.updatePassword
 );
+router.patch(
+  '/updateData',
+  authControllers.protectData,
+  usersControllers.updateCurrentData
+);
+router.delete(
+  '/deleteUser',
+  authControllers.protectData,
+  usersControllers.deleteCurrentUser
+);
 
 //Get all users and Create a new user
 router
