@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const User = require('./userModel');
 // const validator = require('validator');
 
 const tourSchema = new mongoose.Schema(
@@ -100,6 +101,7 @@ const tourSchema = new mongoose.Schema(
         day: Number,
       },
     ],
+    guides: Array,
   },
   {
     toJSON: { virtuals: true },
@@ -116,6 +118,13 @@ tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, {
     lower: true,
   });
+  next();
+});
+
+// MIDDLEWARE for Modeling Embedded
+tourSchema.pre('save', async function (next) {
+  const users = this.guides.map(async (id) => await User.findById(id));
+  this.guides = await Promise.all(users);
   next();
 });
 
