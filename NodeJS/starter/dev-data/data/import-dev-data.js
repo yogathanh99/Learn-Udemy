@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 const Tour = require('../../models/tourModel');
 
-dotenv.config({ path: '../../config.local.env' });
+dotenv.config({ path: '../../.env.local' });
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -16,7 +16,7 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .then(() => console.log('DB connections successful'));
 
