@@ -8,6 +8,7 @@ const hpp = require('hpp');
 
 const toursRoute = require('./routes/toursRoute');
 const usersRoute = require('./routes/usersRoute');
+const reviewRoute = require('./routes/reviewRoute');
 const globalErrorHandler = require('./controllers/errorsController');
 const AppError = require('./utils/appError');
 
@@ -63,6 +64,7 @@ app.use((req, _, next) => {
 //ROUTES
 app.use('/api/v1/tours', toursRoute);
 app.use('/api/v1/users', usersRoute);
+app.use('/api/v1/reviews', reviewRoute);
 //Handle All request which has not route
 app.all('*', (req, res, next) => {
   // const err = new Error(`Can't find ${req.originalUrl} on this server`);
