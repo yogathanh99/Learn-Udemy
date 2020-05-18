@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const SongSchema = new mongoose.Schema({
-  title: { type: String },
+  title: {
+    type: String,
+    unique: [true, 'Title must unique'],
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
