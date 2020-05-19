@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 
+import LyricCreate from './LyricCreate';
+import LyricList from './LyricList';
 import { fetchSong } from '../queries/fetch';
 
 const SongDetail = () => {
@@ -14,12 +16,12 @@ const SongDetail = () => {
   if (error) return `Error! ${error}`;
 
   return (
-    <div>
-      <h1>Song Detail</h1>
-      <h3>{data.song.title}</h3>
-      {data.song.lyrics.length !== 0 ? (
-        <p>{data.song.lyrics[0].content}</p>
-      ) : null}
+    <div style={{ marginLeft: '20px' }}>
+      <h1 style={{ textAlign: 'center', fontSize: '40px', marginTop: '10px' }}>
+        {data.song.title}
+      </h1>
+      <LyricList lyrics={data.song.lyrics} />
+      <LyricCreate songID={id} />
     </div>
   );
 };

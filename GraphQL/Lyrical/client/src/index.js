@@ -10,6 +10,7 @@ import * as serviceWorker from './serviceWorker';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_SERVER_URI,
+  dataIdFromObject: (o) => o.id,
 });
 
 ReactDOM.render(

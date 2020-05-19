@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 import { Redirect, useHistory } from 'react-router-dom';
 
 import { fetchSongs } from '../queries/fetch';
+import FormCreate from './FormCreate';
 
 const mutation = gql`
   mutation AddSong($title: String) {
@@ -30,13 +31,11 @@ const CreateSong = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '10px' }}>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label='Add new song'
-          value={target}
-          onChange={(e) => setTarget(e.target.value)}
-        />
-      </form>
+      <FormCreate
+        handleSubmit={handleSubmit}
+        value={target}
+        setValue={setTarget}
+      />
       {data ? (
         <Redirect push to='/' />
       ) : (
