@@ -4,6 +4,7 @@ const shortid = require('shortid');
 const User = require('../models/userModel');
 const tryCatchAsync = require('../utils/tryCatchAsync');
 const ApppError = require('../utils/appError');
+const factory = require('./handleFactory');
 
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
@@ -120,16 +121,4 @@ exports.updateUser = (req, res) => {
   }
 };
 
-exports.deleteUser = (req, res) => {
-  if (req.params.id * 1 > users.length) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Invalid Id',
-    });
-  } else {
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  }
-};
+exports.deleteUser = factory.deleteOne(User);
