@@ -36,6 +36,7 @@ const tourSchema = new mongoose.Schema(
       default: 4.0,
       min: [1, 'Rating must be above 1.0'],
       max: [5, 'Rating must be below 5.0'],
+      set: (val) => Math.round(val * 10) / 10, // It likes 4.6667 -> 46.7 -> 47 ->4.7
     },
     ratingsQuantity: {
       type: Number,
@@ -113,6 +114,16 @@ const tourSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+// It helps MongoDB has better performance
+// because the index value will be sort increase or decrease
+// which you want -> When search like this, MongoDB does not
+// search all documents
+// 1: sort increasing and  -1: sort decreasing
+tourSchema.index({ price: 1, ratingsAverage: -1 }); // It compounds index
+tourSchema.index({ slug: 1 });
+// Reference: https://docs.mongodb.com/manual/core/2dsphere/
+tourSchema.index({ startLocation: '2dsphere' });
 
 tourSchema.virtual('durationWeek').get(function () {
   return this.duration / 7;

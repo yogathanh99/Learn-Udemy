@@ -19,18 +19,10 @@ const filterObj = (obj, ...allowFields) => {
   return newObj;
 };
 
-exports.getAllUsers = tryCatchAsync(async (req, res, next) => {
-  const users = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.requestTime,
-    result: users.length,
-    data: {
-      users,
-    },
-  });
-});
+exports.getCurrentUser = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
 
 exports.updateCurrentData = tryCatchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
@@ -66,59 +58,12 @@ exports.deleteCurrentUser = tryCatchAsync(async (req, res, next) => {
 });
 
 exports.createUser = (req, res) => {
-  const newId = shortid.generate();
-  const newUser = Object.assign({ _id: newId }, req.body);
-
-  users.push(newUser);
-
-  fs.writeFile(
-    `${__dirname}/../dev-data/data/users.json`,
-    JSON.stringify(users),
-    (err) => {
-      res.status(201).json({
-        status: 'success',
-        result: users.length,
-        data: {
-          user: newUser,
-        },
-      });
-    }
-  );
+  res.status(5000).json({
+    status: 'error',
+    message: 'This route is not defined! Please use /signup instead',
+  });
 };
-
-exports.getUser = (req, res) => {
-  const id = req.params.id * 1;
-  const user = users.find((el) => el.id === id);
-
-  if (user) {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        user,
-      },
-    });
-  } else {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Invalid Id',
-    });
-  }
-};
-
-exports.updateUser = (req, res) => {
-  if (req.params.id * 1 > users.length) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Invalid Id',
-    });
-  } else {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        user: '<Update here...>',
-      },
-    });
-  }
-};
-
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);

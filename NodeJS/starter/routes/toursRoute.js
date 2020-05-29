@@ -9,14 +9,22 @@ const router = express.Router();
 //Get all tours and Create a new tour
 router
   .route('/')
-  .get(authControllers.protectData, toursControllers.getAllTours)
-  .post(toursControllers.createTour);
+  .get(toursControllers.getAllTours)
+  .post(
+    authControllers.protectData,
+    authControllers.restrictTo('admin', 'lead-guide', 'guide'),
+    toursControllers.createTour
+  );
 
 //Get a tour, update, and delete a tour
 router
   .route('/:id')
   .get(toursControllers.getTour)
-  .patch(toursControllers.updateTour)
+  .patch(
+    authControllers.protectData,
+    authControllers.restrictTo('admin', 'lead-guide'),
+    toursControllers.updateTour
+  )
   .delete(
     authControllers.protectData,
     authControllers.restrictTo('admin', 'lead-guide'),
@@ -27,7 +35,13 @@ router
 router.route('/tour-stats').get(toursControllers.getTourStats);
 
 //Get monthly plan
-router.route('/monthly-plan/:year').get(toursControllers.getMonthlyPlan);
+router
+  .route('/monthly-plan/:year')
+  .get(
+    authControllers.protectData,
+    authControllers.restrictTo('admin', 'lead-guide', 'guide'),
+    toursControllers.getMonthlyPlan
+  );
 
 //Get 5 tours cheapest
 router
@@ -40,5 +54,9 @@ router
  * GET /tour/32132/reviews/21312 -> Get a review of a tour
  */
 router.use('/:tourId/reviews', reviewRoute);
+
+router
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(toursControllers.getTourWithinRadius);
 
 module.exports = router;
