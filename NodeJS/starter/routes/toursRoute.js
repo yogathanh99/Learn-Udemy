@@ -59,4 +59,6 @@ router
   .route('/tours-within/:distance/center/:latlng/unit/:unit')
   .get(toursControllers.getTourWithinRadius);
 
+route.route('/distance/:latlng/unit/:unit').get(toursControllers.getDistance);
+
 module.exports = router;

@@ -128,10 +128,52 @@ exports.getTourWithinRadius = tryCatchAsync(async (req, res, next) => {
   });
 
   res.status(200).json({
-    status: 'Success',
+    status: 'success',
     result: tours.length,
     data: {
       data: tours,
+    },
+  });
+});
+
+exports.getDistance = tryCatchAsync(async (req, res, netxt) => {
+  const { latlng, unit } = req.params;
+  const [latitude, longitude] = latlng.split(',');
+
+  const multiplier = unit === 'mi' ? 0.000621371192 : 0.001;
+
+  if (!latitude || !longitude) {
+    next(
+      new AppError(
+        'Please provide latitude and longitude in the format lat,lng',
+        400
+      )
+    );
+  }
+
+  const distances = await Tour.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [longitude * 1, latitude * 1],
+        },
+        distanceField: 'distance',
+        distanceMultiplier: multiplier,
+      },
+    },
+    {
+      $project: {
+        distance: 1,
+        name: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: distances,
     },
   });
 });
