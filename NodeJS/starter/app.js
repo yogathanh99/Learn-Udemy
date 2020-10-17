@@ -65,18 +65,6 @@ app.use((req, _, next) => {
 app.use('/api/v1/tours', toursRoute);
 app.use('/api/v1/users', usersRoute);
 app.use('/api/v1/reviews', reviewRoute);
-//Handle All request which has not route
-app.all('*', (req, res, next) => {
-  // const err = new Error(`Can't find ${req.originalUrl} on this server`);
-  // err.statusCode = 404;
-  // err.status = 'fail';
-  // next(err)
-
-  //When passing something into next()
-  // next() will assume it is error and stop all middleware
-  // and go to Global Error Handling Middleware
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-});
 
 // It calls Global Error Handling Middleware
 //Express knows it is errors handling middleware
